@@ -29,3 +29,7 @@ Future<void> addPeople(String name) async {
 Future<void> updatePeople(String uId, String newName) async {
   await db.collection('people').doc(uId).set({ 'name': newName });
 }
+
+Future<void> deletePeople(String uId) async {
+  await db.collection('people').doc(uId).delete();
+}

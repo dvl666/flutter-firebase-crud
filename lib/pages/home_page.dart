@@ -24,16 +24,46 @@ class _HomeState extends State<Home> {
             return ListView.builder(
               itemCount: snapshot.data?.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(snapshot.data?[index]['name']),
-                  onTap: () async {
-                    await Navigator.pushNamed(context, "/update", 
-                      arguments: {
-                        'uid': snapshot.data?[index]['uid'],
-                        "name": snapshot.data?[index]['name']
-                      });
-                    setState(() {});
+                return Dismissible(
+                  onDismissed: (direction) async {
+                    await deletePeople(snapshot.data?[index]['uid']);
                   },
+                  confirmDismiss: (direction) async {
+                    bool result = false;
+                    result = await showDialog(context: context, builder: (context) {
+                      return AlertDialog(
+                        title: Text('Desea eliminar el registro de ${snapshot.data?[index]['name']}?'),
+                        actions: [
+                          TextButton(onPressed: () {
+                            return Navigator.pop(context, false);
+                          }, 
+                          child: const Text('Cancelar')),
+                          TextButton(onPressed: () {
+                            return Navigator.pop(context, true);
+                          }, 
+                          child: const Text('Si, estoy seguro', style: TextStyle(color: Colors.red),))
+                        ],
+                      );
+                    });
+                    return result;
+                  },
+                  direction: DismissDirection.endToStart,
+                  key: Key(snapshot.data?[index]['uid']),
+                  background: Container(
+                    color: Colors.red,
+                    child: const Icon(Icons.delete),
+                  ),
+                  child: ListTile(
+                    title: Text(snapshot.data?[index]['name']),
+                    onTap: () async {
+                      await Navigator.pushNamed(context, "/update", 
+                        arguments: {
+                          'uid': snapshot.data?[index]['uid'],
+                          "name": snapshot.data?[index]['name']
+                        });
+                      setState(() {});
+                    },
+                  ),
                 );
               },
             );
