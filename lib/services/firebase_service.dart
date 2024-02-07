@@ -11,7 +11,11 @@ Future<List> getPeople() async {
     people.add(element.data());
   }
 
-  await Future.delayed(const Duration(seconds: 5));
+  // await Future.delayed(const Duration(seconds: 5));
 
   return people;
+}
+
+Future<void> addPeople(String name) async {
+  await db.collection('people').add({'name': name});
 }
