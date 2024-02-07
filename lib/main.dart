@@ -1,5 +1,6 @@
 import 'package:firebase_crud/pages/add_page.dart';
 import 'package:firebase_crud/pages/home_page.dart';
+import 'package:firebase_crud/pages/update_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const Home(),
-        '/add': (context) => const AddNamePage()
+        '/add': (context) => const AddNamePage(),
+        '/update': (context) => const UpdatePage(),
       },
     );
   }
