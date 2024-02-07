@@ -27,6 +27,7 @@ class _HomeState extends State<Home> {
                 return Dismissible(
                   onDismissed: (direction) async {
                     await deletePeople(snapshot.data?[index]['uid']);
+                    snapshot.data?.removeAt(index);
                   },
                   confirmDismiss: (direction) async {
                     bool result = false;
